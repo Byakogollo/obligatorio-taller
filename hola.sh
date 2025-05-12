@@ -14,6 +14,24 @@ mostrar_menu() {
   echo "8 -> Salir"
 }
 
+#Opcion1
+opcion1(){
+
+read -p "Ingrese ruta de la carpeta: " carpeta
+archivos_directos=$(find "$carpeta" -maxdepth 1 -type f | wc -l)
+archivos_subcarpetas=$(find "$carpeta" -mindepth 2 -type f | wc -l)
+maxfile=$(ls -R -S "$carpeta" | head -n 1)
+minfile=$(ls -R -S "$carpeta" | tail -n 1)
+
+echo "resumen de la carpeta: $carpeta"
+echo "archivos en la carpeta principal: $archivos_directos"
+echo "archivos en subcarpetas: $archivos_subcarpetas"
+echo "archivo mas grande: $maxfile"
+echo "archivo mas pequenio: $minfile"   
+
+}
+
+
 #(opción 4)
 opcion4() {
   echo "Ingresá la palabra a buscar (o escribi 'menu' para volver):"
@@ -64,7 +82,7 @@ while true; do
   if es_valido "$seleccion"; then
     case $seleccion in
       1)
-        echo "Opción 1 aún no implementada."
+        opcion1
         ;;
       2)
         echo "Opción 2 aún no implementada."
