@@ -14,7 +14,21 @@ mostrar_menu() {
   echo "8 -> Salir"
 }
 
-#(opción 4)
+opcion2() {
+  echo "Directorio:"
+  read ruta
+  [ "$ruta" = "menu" ] && return
+  [ -d "$ruta" ] || { echo "Ruta inválida"; return; }
+  for f in "$ruta"/*; do [ -f "$f" ] && mv "$f" "$f.bck"; done
+  echo "Archivos renombrados."
+}
+
+opcion3() {
+  echo "===== ESTADO DEL DISCO ====="
+  df -h
+}
+
+
 opcion4() {
   echo "Ingresá la palabra a buscar (o escribi 'menu' para volver):"
   read palabra
@@ -32,15 +46,14 @@ opcion4() {
   fi
 }
 
-#(opción 5)
+
 opcion5() {
   echo "===== REPORTE DEL SISTEMA ====="
-  echo "👤 Usuario actual........: $(whoami)"
-  echo "🕓 Fecha y hora actual...: $(date)"
+  echo "Usuario........: $(whoami)"
+  echo "Fecha actual...: $(date)"
   echo "La PC fue encendida....: $(uptime -s)"
   echo "Nombre del host.......: $(hostname)"
-  echo "📂 Directorio actual......: $(pwd)"
-  echo "==============================="
+  echo "Directorio......: $(pwd)"
 }
 
 # Función para validar si el input es un número del 1 al 8
@@ -57,20 +70,16 @@ while true; do
   echo "Elegí una opción (1-8):"
   read seleccion
 
-  if [ "$seleccion" = "menu" ]; then
-    continue
-  fi
-
   if es_valido "$seleccion"; then
     case $seleccion in
       1)
         echo "Opción 1 aún no implementada."
         ;;
       2)
-        echo "Opción 2 aún no implementada."
+        opcion2
         ;;
       3)
-        echo "Opción 3 aún no implementada."
+        opcion3
         ;;
       4)
         opcion4
