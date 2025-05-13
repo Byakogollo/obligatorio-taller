@@ -14,6 +14,11 @@ mostrar_menu() {
   echo "8 -> Salir"
 }
 
+opcion3(){
+  
+}
+
+
 #(opción 4)
 opcion4() {
   echo "Ingresá la palabra a buscar (o escribi 'menu' para volver):"
