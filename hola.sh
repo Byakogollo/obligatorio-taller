@@ -61,6 +61,18 @@ opcion5() {
   echo "==============================="
 }
 
+opcion6(){
+
+read -p "Ingrese la URL: " url
+read -p "Ingrese la carpeta de destino: " destino
+
+archivo ="$destino/website.txt"
+
+curl "$url" > "$archivo"
+
+}
+
+
 # Función para validar si el input es un número del 1 al 8
 es_valido() {
   case $1 in
