@@ -109,7 +109,7 @@ while true; do
         opcion5
         ;;
       6)
-        echo "Opción 6 aún no implementada."
+        opcion6
         ;;
       7)
         echo "Opción 7 aún no implementada."
