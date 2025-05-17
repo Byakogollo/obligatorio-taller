@@ -15,27 +15,18 @@ mostrar_menu() {
 
 opcion1(){
 
-  if [ -n "$ruta7" ]; then
-    echo "Utilizando "$ruta7" como objetivo"
+if [ -n "$ruta7" ]; then
+    echo "Utilizando \"$ruta7\" como objetivo"
     echo "================================="
-
-    archivos_directos=$(find "$ruta7" -maxdepth 1 -type f | wc -c)
-    archivos_subcarpetas=$(find "$ruta7" -mindepth 2 -type f | wc -c)
-    maxfile=$(ls -R -S "$ruta7" | head -n 1)
-    minfile=$(ls -R -S "$ruta7" | tail -n 1)
-
-    echo "resumen de la carpeta: $ruta7"
-    echo "archivos en la carpeta principal: $archivos_directos"
-    echo "archivos en subcarpetas: $archivos_subcarpetas"
-    echo "archivo mas grande: $maxfile"
-    echo "archivo mas pequenio: $minfile"   
-  else
+    carpeta="$ruta7"
+else
     read -p "Ingrese ruta de la carpeta: " carpeta
-    archivos_directos=$(find "$carpeta" -maxdepth 1 -type f | wc -c)
-    archivos_subcarpetas=$(find "$carpeta" -mindepth 2 -type f | wc -c)
-    maxfile=$(ls -R -S "$carpeta" | head -n 1)
-    minfile=$(ls -R -S "$carpeta" | tail -n 1)
-  fi
+fi
+  archivos_directos=$(find "$carpeta" -maxdepth 1 -type f | wc -c)
+  archivos_subcarpetas=$(find "$carpeta" -mindepth 2 -type f | wc -c)
+  maxfile=$(ls -R -S "$carpeta" | head -n 1)
+  minfile=$(ls -R -S "$carpeta" | tail -n 1)
+
   echo "resumen de la carpeta: $carpeta"
   echo "archivos en la carpeta principal: $archivos_directos"
   echo "archivos en subcarpetas: $archivos_subcarpetas"
@@ -49,18 +40,15 @@ opcion2() {
   if [ -n "$ruta7" ]; then
     echo "Utilizando "$ruta7" como objetivo"
     echo "================================="
-      [ "$ruta7" = "menu" ] && return
-      [ -d "$ruta7" ] || { echo "Ruta inválida"; return; }
-      for f in "$ruta7"/*; do [ -f "$f" ] && mv "$f" "$f.bck"; done
-    echo "Archivos renombrados."
+    ruta="$ruta7"
   else
     echo "Directorio: "
     read ruta
+  fi
     [ "$ruta" = "menu" ] && return
     [ -d "$ruta" ] || { echo "Ruta inválida"; return; }
     for f in "$ruta"/*; do [ -f "$f" ] && mv "$f" "$f.bck"; done
     echo "Archivos renombrados."
-  fi
 }
 
 opcion3() {
@@ -74,6 +62,10 @@ opcion4() {
   [ "$palabra" = "menu" ] && return
 
   if [ -n "$ruta7" ]; then
+    echo "Utilizando '$ruta7' como objetivo"
+    echo "================================="
+    ruta="$ruta7"    
+    else
     echo "Ingresa el directorio donde buscar (o escribi 'menu' para volver):"
     read ruta
     [ "$ruta" = "menu" ] && return
@@ -82,15 +74,6 @@ opcion4() {
       grep -rnw "$ruta" -e "$palabra"
     else
       echo "La ruta '$ruta' no es un directorio válido."
-    fi
-  else 
-    echo "Utilizando '$ruta7' como objetivo"
-    echo "================================="
-    if [ -d "$ruta7" ]; then
-      echo "Buscando '$palabra' en '$ruta7'..."
-      grep -rnw "$ruta7" -e "$palabra"
-    else
-      echo "La ruta '$ruta7' no es un directorio válido."
     fi
   fi
 }
@@ -109,11 +92,11 @@ opcion6(){
   if [ -n "$ruta7" ]; then
    echo "Utilizando "$ruta7" como objetivo"
     echo "================================="
-    archivo ="$ruta7/website.txt"
+    destino="$ruta7"
   else
     read -p "Ingrese la carpeta de destino: " destino
-    archivo ="$destino/website.txt"
   fi
+  archivo ="$destino/website.txt"
   curl "$url" > "$archivo"
 }
 
@@ -137,7 +120,7 @@ es_valido() {
   esac
 }
 
-while true; do
+while true; do  
   mostrar_menu
   echo "Elegí una opción (1-8):"
   read seleccion
