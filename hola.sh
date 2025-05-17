@@ -21,6 +21,10 @@ if [ -n "$ruta7" ]; then
     carpeta="$ruta7"
 else
     read -p "Ingrese ruta de la carpeta: " carpeta
+    echo ''
+    echo 'O utilice la opcion '8' para volver.'
+    [ "$carpeta" = "8" ] && return
+
 fi
   archivos_directos=$(find "$carpeta" -maxdepth 1 -type f | wc -c)
   archivos_subcarpetas=$(find "$carpeta" -mindepth 2 -type f | wc -c)
@@ -42,10 +46,10 @@ opcion2() {
     echo "================================="
     ruta="$ruta7"
   else
-    echo "Directorio: "
-    read ruta
-  fi
-    [ "$ruta" = "menu" ] && return
+    read -p "Ingrese un directorio: " ruta
+    echo ''
+    echo 'O utilice la opcion '8' para volver.'
+    [ "$ruta" = "8" ] && return
     [ -d "$ruta" ] || { echo "Ruta inválida"; return; }
     for f in "$ruta"/*; do [ -f "$f" ] && mv "$f" "$f.bck"; done
     echo "Archivos renombrados."
@@ -57,9 +61,9 @@ opcion3() {
 }
 
 opcion4() {
-  echo "Ingresá la palabra a buscar (o escribi 'menu' para volver):"
+  echo "Ingresá la palabra a buscar (o utiliza la opcion '8' para volver):"
   read palabra
-  [ "$palabra" = "menu" ] && return
+  [ "$palabra" = "8" ] && return
 
   if [ -n "$ruta7" ]; then
     echo "Utilizando '$ruta7' como objetivo"
@@ -89,7 +93,10 @@ opcion5() {
 
 opcion6(){
   read -p "Ingrese la URL: " url
-  if [ -n "$ruta7" ]; then
+  echo ''
+  echo 'O utilice la opcion '8' para volver.'
+    [ "$url" = "8" ] && return
+    if [ -n "$ruta7" ]; then
    echo "Utilizando "$ruta7" como objetivo"
     echo "================================="
     destino="$ruta7"
@@ -102,9 +109,11 @@ opcion6(){
 
 
 opcion7() {
-    echo "Ingrese una ruta"
+    echo "Ingrese una ruta: "
     read ruta
-    [ "$ruta" = "menu" ] && return
+    echo ''
+    echo 'O utilice la opcion '8' para volver.'
+    [ "$ruta" = "8" ] && return
     if [ -d "$ruta" ]; then
         ruta7="$ruta"
         echo "Ruta guardada con éxito"
