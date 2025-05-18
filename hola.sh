@@ -23,9 +23,9 @@ else
     read -p "Ingrese ruta de la carpeta: " carpeta
     echo ''
     echo 'O utilice la opcion '8' para volver.'
-    [ "$carpeta" = "8" ] && return
 
 fi
+  [ "$carpeta" = "8" ] && return
   archivos_directos=$(find "$carpeta" -maxdepth 1 -type f | wc -c)
   archivos_subcarpetas=$(find "$carpeta" -mindepth 2 -type f | wc -c)
   maxfile=$(ls -R -S "$carpeta" | head -n 1)
@@ -49,10 +49,11 @@ opcion2() {
     read -p "Ingrese un directorio: " ruta
     echo ''
     echo 'O utilice la opcion '8' para volver.'
-    [ "$ruta" = "8" ] && return
-    [ -d "$ruta" ] || { echo "Ruta inválida"; return; }
-    for f in "$ruta"/*; do [ -f "$f" ] && mv "$f" "$f.bck"; done
-    echo "Archivos renombrados."
+  fi
+  [ "$ruta" = "8" ] && return
+  [ -d "$ruta" ] || { echo "Ruta inválida"; return; }
+  for f in "$ruta"/*; do [ -f "$f" ] && mv "$f" "$f.bck"; done
+  echo "Archivos renombrados."
 }
 
 opcion3() {
@@ -72,13 +73,13 @@ opcion4() {
     else
     echo "Ingresa el directorio donde buscar (o escribi 'menu' para volver):"
     read ruta
-    [ "$ruta" = "menu" ] && return
-    if [ -d "$ruta" ]; then
-      echo "Buscando '$palabra' en '$ruta'..."
-      grep -rnw "$ruta" -e "$palabra"
-    else
-      echo "La ruta '$ruta' no es un directorio válido."
-    fi
+  fi
+  [ "$ruta" = "8" ] && return
+  if [ -d "$ruta" ]; then
+    echo "Buscando '$palabra' en '$ruta'..."
+    grep -rnw "$ruta" -e "$palabra"
+  else
+    echo "La ruta '$ruta' no es un directorio válido."
   fi
 }
 
@@ -95,14 +96,15 @@ opcion6(){
   read -p "Ingrese la URL: " url
   echo ''
   echo 'O utilice la opcion '8' para volver.'
-    [ "$url" = "8" ] && return
-    if [ -n "$ruta7" ]; then
-   echo "Utilizando "$ruta7" como objetivo"
+  [ "$url" = "8" ] && return
+  if [ -n "$ruta7" ]; then
+    echo "Utilizando "$ruta7" como objetivo"
     echo "================================="
     destino="$ruta7"
   else
     read -p "Ingrese la carpeta de destino: " destino
   fi
+  [ "$destino" = "8" ] && return
   archivo ="$destino/website.txt"
   curl "$url" > "$archivo"
 }
