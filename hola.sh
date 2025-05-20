@@ -41,12 +41,11 @@ opcion2() {
 
   if [ -n "$ruta7" ]; then
     echo "Utilizando "$ruta7" como objetivo"
-    echo "================================="
+    echo "=======
+    =========================="
     ruta="$ruta7"
   else
-    read -p "Ingrese un directorio: " ruta
-    echo ''
-    echo 'O utilice la opcion '8' para volver.'
+    read -p "Ingrese un directorio o ingrese 8 para volver " ruta
   fi
   [ "$ruta" = "8" ] && return
   [ -d "$ruta" ] || { echo "Ruta inválida"; return; }
@@ -85,15 +84,13 @@ opcion5() {
   echo "===== REPORTE DEL SISTEMA ====="
   echo "Usuario........: $(whoami)"
   echo "Fecha actual...: $(date)"
-  echo "La PC fue encendida....: $(uptime -s)"
+  echo "La PC fue encendida....: $(uptime -p)"
   echo "Nombre del host.......: $(hostname)"
   echo "Directorio......: $(pwd)"
 }
 
 opcion6(){
-  read -p "Ingrese la URL: " url
-  echo ''
-  echo 'O utilice la opcion '8' para volver.'
+  read -p "Ingrese la URL o ingrese 8 para volver: " url
   [ "$url" = "8" ] && return
   if [ -n "$ruta7" ]; then
     echo "Utilizando "$ruta7" como objetivo"
@@ -103,16 +100,14 @@ opcion6(){
     read -p "Ingrese la carpeta de destino: " destino
   fi
   [ "$destino" = "8" ] && return
-  archivo ="$destino/website.txt"
+  archivo="$destino/website.txt"
   curl "$url" > "$archivo"
 }
 
 
 opcion7() {
-    echo "Ingrese una ruta: "
+    echo "Ingrese una ruta o ingrese 8 para volver:  "
     read ruta7
-    echo ''
-    echo 'O utilice la opcion '8' para volver.'
     [ "$ruta7" = "8" ] && return
   
     if [ -d "$ruta7" ]; then
