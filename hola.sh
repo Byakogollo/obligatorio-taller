@@ -20,9 +20,7 @@ if [ -n "$ruta7" ]; then
     echo "================================="
     carpeta="$ruta7"
 else
-    read -p "Ingrese ruta de la carpeta: " carpeta
-    echo ''
-    echo 'O utilice la opcion '8' para volver.'
+    read -p "Ingrese ruta de la carpeta o ingrese '8' para volver: " carpeta
 
 fi
   [ "$carpeta" = "8" ] && return
@@ -122,7 +120,7 @@ opcion7() {
     else
         echo "El directorio no existe"
         read -p "Desea crear el directorio? (Y/N)" respuesta
-          if ["$respuesta" = "Y"]
+          if [ "$respuesta" = "Y" ]; then
             mkdir "$ruta7"
               echo "El directorio ha sido creado y almacenado"
           fi             
