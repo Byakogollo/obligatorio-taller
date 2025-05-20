@@ -112,16 +112,22 @@ opcion6(){
 
 opcion7() {
     echo "Ingrese una ruta: "
-    read ruta
+    read ruta7
     echo ''
     echo 'O utilice la opcion '8' para volver.'
-    [ "$ruta" = "8" ] && return
-    if [ -d "$ruta" ]; then
-        ruta7="$ruta"
+    [ "$ruta7" = "8" ] && return
+  
+    if [ -d "$ruta7" ]; then
         echo "Ruta guardada con éxito"
     else
         echo "El directorio no existe"
+        read -p "Desea crear el directorio? (Y/N)" respuesta
+          if ["$respuesta" = "Y"]
+            mkdir "$ruta7"
+              echo "El directorio ha sido creado y almacenado"
+          fi             
     fi
+    
 }
 
 es_valido() {
