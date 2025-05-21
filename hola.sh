@@ -24,8 +24,8 @@ else
 
 fi
   [ "$carpeta" = "8" ] && return
-  archivos_directos=$(find "$carpeta" -maxdepth 1 -type f | wc -c)
-  archivos_subcarpetas=$(find "$carpeta" -mindepth 2 -type f | wc -c)
+  archivos_directos=$(find "$carpeta" -maxdepth 1 -type f | wc -l)
+  archivos_subcarpetas=$(find "$carpeta" -mindepth 2 -type f | wc -l)
   maxfile=$(ls -R -S "$carpeta" | head -n 1)
   minfile=$(ls -R -S "$carpeta" | tail -n 1)
 
