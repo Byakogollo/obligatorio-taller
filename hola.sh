@@ -26,8 +26,8 @@ fi
   [ "$carpeta" = "8" ] && return
   archivos_directos=$(find "$carpeta" -maxdepth 1 -type f | wc -l)
   archivos_subcarpetas=$(find "$carpeta" -mindepth 2 -type f | wc -l)
-  maxfile=$(ls -R -S "$carpeta" | head -n 1)
-  minfile=$(ls -R -S "$carpeta" | tail -n 1)
+  maxfile=$(find "$carpeta" -type f -exec ls -S {} + | head -n 1)
+  minfile=$(find "$carpeta" -type f -exec ls -S {} + | tail -n 1)
 
   echo "resumen de la carpeta: $carpeta"
   echo "archivos en la carpeta principal: $archivos_directos"
