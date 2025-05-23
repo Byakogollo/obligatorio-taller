@@ -54,7 +54,7 @@ opcion4() {
     echo "================================="
     ruta="$ruta7"    
     else
-    echo "Ingresa el directorio donde buscar (o escribi 'menu' para volver):"
+    echo "Ingresa el directorio donde buscar (o escribi '8' para volver):"
     read ruta
   fi
   [ "$ruta" = "8" ] && return
