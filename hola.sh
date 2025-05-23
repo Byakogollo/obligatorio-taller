@@ -1,4 +1,129 @@
 #!/bin/sh
+opcion1(){
+
+if [ -n "$ruta7" ]; then
+    echo "Utilizando \"$ruta7\" como objetivo"
+    echo "================================="
+    carpeta="$ruta7"
+else
+    read -p "Ingrese ruta de la carpeta o ingrese '8' para volver: " carpeta
+
+fi
+  [ "$carpeta" = "8" ] && return
+  archivos_directos=$(find "$carpeta" -maxdepth 1 -type f | wc -l)
+  archivos_subcarpetas=$(find "$carpeta" -mindepth 2 -type f | wc -l)
+  maxfile=$(find "$carpeta" -type f -exec ls -S {} + | head -n 1)
+  minfile=$(find "$carpeta" -type f -exec ls -S {} + | tail -n 1)
+
+  echo "resumen de la carpeta: $carpeta"
+  echo "archivos en la carpeta principal: $archivos_directos"
+  echo "archivos en subcarpetas: $archivos_subcarpetas"
+  echo "archivo mas grande: $maxfile"
+  echo "archivo mas pequenio: $minfile"   
+}
+
+
+opcion2() {
+
+  if [ -n "$ruta7" ]; then
+    echo "Utilizando "$ruta7" como objetivo"
+    echo "=======
+    =========================="
+    ruta="$ruta7"
+  else
+    read -p "Ingrese un directorio o ingrese 8 para volver " ruta
+  fi
+  [ "$ruta" = "8" ] && return
+  [ -d "$ruta" ] || { echo "Ruta inválida"; return; }
+  for f in "$ruta"/*; do [ -f "$f" ] && mv "$f" "$f.bck"; done
+  echo "Archivos renombrados."
+}
+
+opcion3() {
+  echo "===== ESTADO DEL DISCO ====="
+  df -h
+}
+
+opcion4() {
+  echo "Ingresá la palabra a buscar (o utiliza la opcion '8' para volver):"
+  read palabra
+  [ "$palabra" = "8" ] && return
+
+  if [ -n "$ruta7" ]; then
+    echo "Utilizando '$ruta7' como objetivo"
+    echo "================================="
+    ruta="$ruta7"    
+    else
+    echo "Ingresa el directorio donde buscar (o escribi 'menu' para volver):"
+    read ruta
+  fi
+  [ "$ruta" = "8" ] && return
+  if [ -d "$ruta" ]; then
+    echo "Buscando '$palabra' en '$ruta'..."
+    grep -rnw "$ruta" -e "$palabra"
+  else
+    echo "La ruta '$ruta' no es un directorio válido."
+  fi
+}
+
+opcion5() {
+  echo "===== REPORTE DEL SISTEMA ====="
+  echo "Usuario........: $(whoami)"
+  echo "Fecha actual...: $(date)"
+  echo "La PC fue encendida....: $(uptime -p)"
+  echo "Nombre del host.......: $(hostname)"
+  echo "Directorio......: $(pwd)"
+}
+
+opcion6(){
+  read -p "Ingrese la URL o ingrese 8 para volver: " url
+  [ "$url" = "8" ] && return
+  if [ -n "$ruta7" ]; then
+    echo "Utilizando "$ruta7" como objetivo"
+    echo "================================="
+    destino="$ruta7"
+  else
+    read -p "Ingrese la carpeta de destino: " destino
+  fi
+  [ "$destino" = "8" ] && return
+  archivo="$destino/website.txt"
+  curl "$url" > "$archivo"
+}
+
+
+opcion7() {
+    echo "Ingrese una ruta o ingrese 8 para volver:  "
+    read ruta7
+    [ "$ruta7" = "8" ] && return
+  
+    if [ -d "$ruta7" ]; then
+        echo "Ruta guardada con éxito"
+    else
+    do
+      echo "El directorio no existe"
+        while true; do
+            echo "¿Desea crear el directorio? (Y/N)"
+            read -r respuesta
+            
+            if respuesta_valida "$respuesta"; then
+                if [[ "$respuesta" =~ ^[Yy]$ ]]; then
+                    mkdir "$ruta7"
+                    echo "El directorio ha sido creado y almacenado"
+                fi
+                break
+            else
+                echo "Ingrese una respuesta válida (Y/N)"
+            fi
+        done
+    fi
+}
+
+respuesta_valida() {
+    case "$1" in
+        [Yy]|[Nn]) return 0 ;;
+        *) return 1 ;; 
+    esac
+}
 
 mostrar_menu() {
   echo ""
@@ -13,131 +138,16 @@ mostrar_menu() {
   echo "8 -> Salir"
 }
 
-opcion1(){
 
-  if [ -n "$ruta7" ]; then
-    echo "Utilizando "$ruta7" como objetivo"
-    echo "================================="
-
-    archivos_directos=$(find "$ruta7" -maxdepth 1 -type f | wc -c)
-    archivos_subcarpetas=$(find "$ruta7" -mindepth 2 -type f | wc -c)
-    maxfile=$(ls -R -S "$ruta7" | head -n 1)
-    minfile=$(ls -R -S "$ruta7" | tail -n 1)
-
-    echo "resumen de la carpeta: $ruta7"
-    echo "archivos en la carpeta principal: $archivos_directos"
-    echo "archivos en subcarpetas: $archivos_subcarpetas"
-    echo "archivo mas grande: $maxfile"
-    echo "archivo mas pequenio: $minfile"   
-  else
-    read -p "Ingrese ruta de la carpeta: " carpeta
-    archivos_directos=$(find "$carpeta" -maxdepth 1 -type f | wc -c)
-    archivos_subcarpetas=$(find "$carpeta" -mindepth 2 -type f | wc -c)
-    maxfile=$(ls -R -S "$carpeta" | head -n 1)
-    minfile=$(ls -R -S "$carpeta" | tail -n 1)
-  fi
-  echo "resumen de la carpeta: $carpeta"
-  echo "archivos en la carpeta principal: $archivos_directos"
-  echo "archivos en subcarpetas: $archivos_subcarpetas"
-  echo "archivo mas grande: $maxfile"
-  echo "archivo mas pequenio: $minfile"   
-}
-
-
-opcion2() {
-
-  if [ -n "$ruta7" ]; then
-    echo "Utilizando "$ruta7" como objetivo"
-    echo "================================="
-      [ "$ruta7" = "menu" ] && return
-      [ -d "$ruta7" ] || { echo "Ruta inválida"; return; }
-      for f in "$ruta7"/*; do [ -f "$f" ] && mv "$f" "$f.bck"; done
-    echo "Archivos renombrados."
-  else
-    echo "Directorio: "
-    read ruta
-    [ "$ruta" = "menu" ] && return
-    [ -d "$ruta" ] || { echo "Ruta inválida"; return; }
-    for f in "$ruta"/*; do [ -f "$f" ] && mv "$f" "$f.bck"; done
-    echo "Archivos renombrados."
-  fi
-}
-
-opcion3() {
-  echo "===== ESTADO DEL DISCO ====="
-  df -h
-}
-
-opcion4() {
-  echo "Ingresá la palabra a buscar (o escribi 'menu' para volver):"
-  read palabra
-  [ "$palabra" = "menu" ] && return
-
-  if [ -n "$ruta7" ]; then
-    echo "Ingresa el directorio donde buscar (o escribi 'menu' para volver):"
-    read ruta
-    [ "$ruta" = "menu" ] && return
-    if [ -d "$ruta" ]; then
-      echo "Buscando '$palabra' en '$ruta'..."
-      grep -rnw "$ruta" -e "$palabra"
-    else
-      echo "La ruta '$ruta' no es un directorio válido."
-    fi
-  else 
-    echo "Utilizando '$ruta7' como objetivo"
-    echo "================================="
-    if [ -d "$ruta7" ]; then
-      echo "Buscando '$palabra' en '$ruta7'..."
-      grep -rnw "$ruta7" -e "$palabra"
-    else
-      echo "La ruta '$ruta7' no es un directorio válido."
-    fi
-  fi
-}
-
-opcion5() {
-  echo "===== REPORTE DEL SISTEMA ====="
-  echo "Usuario........: $(whoami)"
-  echo "Fecha actual...: $(date)"
-  echo "La PC fue encendida....: $(uptime -s)"
-  echo "Nombre del host.......: $(hostname)"
-  echo "Directorio......: $(pwd)"
-}
-
-opcion6(){
-  read -p "Ingrese la URL: " url
-  if [ -n "$ruta7" ]; then
-   echo "Utilizando "$ruta7" como objetivo"
-    echo "================================="
-    archivo ="$ruta7/website.txt"
-  else
-    read -p "Ingrese la carpeta de destino: " destino
-    archivo ="$destino/website.txt"
-  fi
-  curl "$url" > "$archivo"
-}
-
-
-opcion7() {
-    echo "Ingrese una ruta"
-    read ruta
-    [ "$ruta" = "menu" ] && return
-    if [ -d "$ruta" ]; then
-        ruta7="$ruta"
-        echo "Ruta guardada con éxito"
-    else
-        echo "El directorio no existe"
-    fi
-}
 
 es_valido() {
-  case $1 in
+  case $seleccion in
     1|2|3|4|5|6|7|8) return 0 ;;
     *) return 1 ;;
   esac
 }
 
-while true; do
+while true; do  
   mostrar_menu
   echo "Elegí una opción (1-8):"
   read seleccion
