@@ -1,18 +1,4 @@
 #!/bin/sh
-
-mostrar_menu() {
-  echo ""
-  echo "======= MENU PRINCIPAL ======="
-  echo "1 -> Muestra en pantalla resumen de las carpetas ordenadas de mayor tamaño a menor"
-  echo "2 -> Renombrar todos los archivos a bck"
-  echo "3 -> Muestra un resumen del estado del disco duro"
-  echo "4 -> Buscar palabras en los archivos de una carpeta"
-  echo "5 -> Mostrar reporte del sistema"
-  echo "6 -> Ingrese una URL"
-  echo "7 -> Insertar ruta para el resto de las opciones"
-  echo "8 -> Salir"
-}
-
 opcion1(){
 
 if [ -n "$ruta7" ]; then
@@ -110,21 +96,50 @@ opcion7() {
     read ruta7
     [ "$ruta7" = "8" ] && return
   
-    if [ -d "$ruta7" ]; then
-        echo "Ruta guardada con éxito"
-    else
-        echo "El directorio no existe"
-        read -p "Desea crear el directorio? (Y/N)" respuesta
-          if [ "$respuesta" = "Y" ]; then
-            mkdir "$ruta7"
-              echo "El directorio ha sido creado y almacenado"
-          fi             
-    fi
-    
+  if [ -d "$ruta7" ]; then
+    echo "Ruta guardada con éxito"
+else
+    echo "El directorio no existe"
+    while true; do
+        echo "¿Desea crear el directorio? (Y/N)"
+        read -r respuesta
+
+        if respuesta_valida "$respuesta"; then
+            case "$respuesta" in
+                [Yy]) mkdir "$ruta7"; echo "El directorio ha sido creado" ;;
+            esac
+            break
+        else
+            echo "Ingrese una respuesta válida (Y/N)"
+        fi
+    done
+fi
 }
 
+respuesta_valida() {
+    case "$1" in
+        [Yy]|[Nn]) return 0 ;;
+        *) return 1 ;; 
+    esac
+}
+
+mostrar_menu() {
+  echo ""
+  echo "======= MENU PRINCIPAL ======="
+  echo "1 -> Muestra en pantalla resumen de las carpetas ordenadas de mayor tamaño a menor"
+  echo "2 -> Renombrar todos los archivos a bck"
+  echo "3 -> Muestra un resumen del estado del disco duro"
+  echo "4 -> Buscar palabras en los archivos de una carpeta"
+  echo "5 -> Mostrar reporte del sistema"
+  echo "6 -> Ingrese una URL"
+  echo "7 -> Insertar ruta para el resto de las opciones"
+  echo "8 -> Salir"
+}
+
+
+
 es_valido() {
-  case $1 in
+  case $seleccion in
     1|2|3|4|5|6|7|8) return 0 ;;
     *) return 1 ;;
   esac
