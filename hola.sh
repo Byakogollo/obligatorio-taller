@@ -117,7 +117,7 @@ fi
 }
 
 respuesta_valida() {
-    case "$1" in
+    case "$respuesta" in
         [Yy]|[Nn]) return 0 ;;
         *) return 1 ;; 
     esac
