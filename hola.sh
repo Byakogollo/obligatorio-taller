@@ -96,26 +96,24 @@ opcion7() {
     read ruta7
     [ "$ruta7" = "8" ] && return
   
-    if [ -d "$ruta7" ]; then
-        echo "Ruta guardada con éxito"
-    else
-    do
-      echo "El directorio no existe"
-        while true; do
-            echo "¿Desea crear el directorio? (Y/N)"
-            read -r respuesta
-            
-            if respuesta_valida "$respuesta"; then
-                if [[ "$respuesta" =~ ^[Yy]$ ]]; then
-                    mkdir "$ruta7"
-                    echo "El directorio ha sido creado y almacenado"
-                fi
-                break
-            else
-                echo "Ingrese una respuesta válida (Y/N)"
-            fi
-        done
-    fi
+  if [ -d "$ruta7" ]; then
+    echo "Ruta guardada con éxito"
+else
+    echo "El directorio no existe"
+    while true; do
+        echo "¿Desea crear el directorio? (Y/N)"
+        read -r respuesta
+
+        if respuesta_valida "$respuesta"; then
+            case "$respuesta" in
+                [Yy]) mkdir "$ruta7"; echo "El directorio ha sido creado" ;;
+            esac
+            break
+        else
+            echo "Ingrese una respuesta válida (Y/N)"
+        fi
+    done
+fi
 }
 
 respuesta_valida() {
