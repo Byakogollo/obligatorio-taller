@@ -60,7 +60,7 @@ opcion4() {
   [ "$ruta" = "8" ] && return
   if [ -d "$ruta" ]; then
     echo "Buscando '$palabra' en '$ruta'..."
-    grep -rnw "$ruta" -e "$palabra"
+    grep -rnw "$ruta" "$palabra"
   else
     echo "La ruta '$ruta' no es un directorio válido."
   fi
